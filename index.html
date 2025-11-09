@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head><script src="https://static.readdy.ai/static/e.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAGON Almacén del Este - Licorería Premium en República Dominicana</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#0ea5e9',secondary:'#f59e0b'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        .ai-glow { box-shadow: 0 0 20px rgba(14, 165, 233, 0.3); }
+        .age-modal { backdrop-filter: blur(10px); }
+        .hero-bg { background-image: url('https://readdy.ai/api/search-image?query=Modern%20Caribbean%20liquor%20store%20interior%20with%20tropical%20colors%2C%20bottles%20on%20shelves%2C%20warm%20lighting%2C%20Dominican%20Republic%20atmosphere%2C%20professional%20commercial%20photography%2C%20clean%20background&width=1920&height=800&seq=hero001&orientation=landscape'); }
+        .product-card:hover { transform: translateY(-4px); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="ageModal" class="fixed inset-0 bg-black bg-opacity-50 age-modal flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="ri-error-warning-line text-red-500 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Verificación de Edad</h2>
+            <p class="text-gray-600 mb-6">Este sitio web contiene información sobre bebidas alcohólicas. Debes ser mayor de 18 años para acceder.</p>
+            <div class="space-y-3">
+                <button id="confirmAge" class="w-full bg-primary text-white py-3 px-6 !rounded-button font-medium whitespace-nowrap hover:bg-blue-600 transition-colors">
+                    Soy mayor de 18 años
+                </button>
+                <button id="denyAge" class="w-full border border-gray-300 text-gray-700 py-3 px-6 !rounded-button font-medium whitespace-nowrap hover:bg-gray-50 transition-colors">
+                    Soy menor de 18 años
+                </button>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">Consume con responsabilidad. Prohibida la venta a menores de edad.</p>
+        </div>
+    </div>
+
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-8">
+                    <h1 class="text-2xl font-['Pacifico'] text-primary">DAGON</h1>
+                    <nav class="hidden md:flex space-x-6">
+                        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Inicio</a>
+                        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Productos</a>
+                        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Ofertas</a>
+                        <a href="#" class="text-gray-700 hover:text-primary transition-colors">Contacto</a>
+                    </nav>
+                </div>
+                
+                <div class="flex-1 max-w-md mx-8">
+                    <div class="relative">
+                        <input type="text" placeholder="Buscar productos..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center">
+                            <i class="ri-search-line text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <select class="text-sm border border-gray-300 rounded px-2 py-1 pr-8">
+                        <option>ES</option>
+                        <option>EN</option>
+                    </select>
+                    
+                    <button class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                        <i class="ri-user-line"></i>
+                    </button>
+                    
+                    <button id="cartBtn" class="relative w-8 h-8 flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                        <i class="ri-shopping-cart-line"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-bg bg-cover bg-center relative min-h-[500px] flex items-center">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+            <div class="relative w-full px-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="max-w-lg">
+                        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                            Almacén del Este
+                        </h2>
+                        <p class="text-xl text-white/90 mb-6">
+                            La mejor selección de licores premium en República Dominicana. Entrega rápida y segura.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button class="bg-primary text-white px-8 py-3 !rounded-button font-medium whitespace-nowrap hover:bg-blue-600 transition-colors">
+                                Ver Catálogo
+                            </button>
+                            <button class="border-2 border-white text-white px-8 py-3 !rounded-button font-medium whitespace-nowrap hover:bg-white hover:text-gray-800 transition-colors">
+                                Ofertas Especiales
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-gradient-to-r from-blue-50 to-cyan-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="bg-white rounded-2xl p-8 ai-glow">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
+                            <i class="ri-brain-line text-primary text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">Venta Inteligente AI</h3>
+                            <p class="text-gray-600">Recomendaciones personalizadas para ti</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <div class="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-6 mb-4">
+                                <h4 class="font-semibold text-gray-800 mb-2">🌡️ Recomendado por el clima tropical</h4>
+                                <p class="text-gray-600 mb-4">Perfecto para el calor dominicano de hoy: Cervezas refrescantes y cócteles tropicales</p>
+                                <div class="flex space-x-2">
+                                    <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Cerveza Presidente</span>
+                                    <span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-sm">Ron Barceló</span>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6">
+                                <h4 class="font-semibold text-gray-800 mb-2">📈 Tendencia en tu zona</h4>
+                                <p class="text-gray-600 mb-4">Los productos más populares en Santo Domingo Este esta semana</p>
+                                <button class="bg-green-600 text-white px-6 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-green-700 transition-colors">
+                                    Ver Productos Trending
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                                <img src="https://readdy.ai/api/search-image?query=Premium%20Dominican%20rum%20bottle%20Barcelo%20Imperial%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20high%20quality&width=80&height=80&seq=prod001&orientation=squarish" alt="Ron Barceló" class="w-16 h-16 object-cover rounded-lg">
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-800">Ron Barceló Imperial</h5>
+                                    <p class="text-sm text-gray-600">RD$ 2,850</p>
+                                </div>
+                                <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors">
+                                    Agregar
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl">
+                                <img src="https://readdy.ai/api/search-image?query=Presidente%20beer%20bottle%20Dominican%20Republic%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20golden%20beer%20bottle&width=80&height=80&seq=prod002&orientation=squarish" alt="Cerveza Presidente" class="w-16 h-16 object-cover rounded-lg">
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-800">Cerveza Presidente</h5>
+                                    <p class="text-sm text-gray-600">RD$ 180</p>
+                                </div>
+                                <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors">
+                                    Agregar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <aside class="md:w-64">
+                        <div class="bg-white rounded-xl p-6 shadow-sm">
+                            <h3 class="font-semibold text-gray-800 mb-4">Filtros</h3>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-3">Categorías</h4>
+                                    <div class="space-y-2">
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="sr-only">
+                                            <div class="w-4 h-4 border-2 border-gray-300 rounded mr-3 flex items-center justify-center cursor-pointer checkbox">
+                                                <i class="ri-check-line text-white text-xs hidden"></i>
+                                            </div>
+                                            <span class="text-sm text-gray-600">Ron (24)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="sr-only">
+                                            <div class="w-4 h-4 border-2 border-gray-300 rounded mr-3 flex items-center justify-center cursor-pointer checkbox">
+                                                <i class="ri-check-line text-white text-xs hidden"></i>
+                                            </div>
+                                            <span class="text-sm text-gray-600">Cerveza (18)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="sr-only">
+                                            <div class="w-4 h-4 border-2 border-gray-300 rounded mr-3 flex items-center justify-center cursor-pointer checkbox">
+                                                <i class="ri-check-line text-white text-xs hidden"></i>
+                                            </div>
+                                            <span class="text-sm text-gray-600">Whisky (12)</span>
+                                        </label>
+                                        <label class="flex items-center">
+                                            <input type="checkbox" class="sr-only">
+                                            <div class="w-4 h-4 border-2 border-gray-300 rounded mr-3 flex items-center justify-center cursor-pointer checkbox">
+                                                <i class="ri-check-line text-white text-xs hidden"></i>
+                                            </div>
+                                            <span class="text-sm text-gray-600">Vino (15)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-medium text-gray-700 mb-3">Precio (RD$)</h4>
+                                    <div class="space-y-2">
+                                        <input type="range" min="0" max="10000" value="5000" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider">
+                                        <div class="flex justify-between text-sm text-gray-500">
+                                            <span>RD$ 0</span>
+                                            <span>RD$ 10,000+</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">Nuestros Productos</h2>
+                            <div class="flex items-center space-x-4">
+                                <select class="border border-gray-300 rounded px-3 py-2 text-sm pr-8">
+                                    <option>Más Popular</option>
+                                    <option>Precio: Menor a Mayor</option>
+                                    <option>Precio: Mayor a Menor</option>
+                                    <option>Nuevos Productos</option>
+                                </select>
+                                <div class="flex border border-gray-300 rounded">
+                                    <button class="p-2 bg-primary text-white">
+                                        <div class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-grid-line"></i>
+                                        </div>
+                                    </button>
+                                    <button class="p-2 text-gray-600 hover:bg-gray-50">
+                                        <div class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-list-unordered"></i>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Premium%20Dominican%20rum%20bottle%20Barcelo%20Imperial%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20luxury%20amber%20bottle&width=300&height=300&seq=prod003&orientation=squarish" alt="Ron Barceló Imperial" class="w-full h-48 object-cover object-top">
+                                    <span class="absolute top-2 left-2 bg-secondary text-white px-2 py-1 rounded text-xs">AI Recomendado</span>
+                                    <button class="absolute top-2 right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50">
+                                        <i class="ri-heart-line text-gray-600"></i>
+                                    </button>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-800 mb-1">Ron Barceló Imperial</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Ron premium dominicano</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-bold text-primary">RD$ 2,850</span>
+                                        <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors add-to-cart" data-product="Ron Barceló Imperial" data-price="2850">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Presidente%20beer%20bottle%20Dominican%20Republic%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20golden%20beer%20bottle%20with%20label&width=300&height=300&seq=prod004&orientation=squarish" alt="Cerveza Presidente" class="w-full h-48 object-cover object-top">
+                                    <span class="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 rounded text-xs">Popular</span>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-800 mb-1">Cerveza Presidente</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Cerveza nacional dominicana</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-bold text-primary">RD$ 180</span>
+                                        <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors add-to-cart" data-product="Cerveza Presidente" data-price="180">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Premium%20whisky%20bottle%20Johnnie%20Walker%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20elegant%20glass%20bottle&width=300&height=300&seq=prod005&orientation=squarish" alt="Whisky Johnnie Walker" class="w-full h-48 object-cover object-top">
+                                    <span class="absolute top-2 left-2 bg-purple-500 text-white px-2 py-1 rounded text-xs">Premium</span>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-800 mb-1">Johnnie Walker Black</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Whisky escocés premium</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-bold text-primary">RD$ 4,200</span>
+                                        <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors add-to-cart" data-product="Johnnie Walker Black" data-price="4200">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Premium%20vodka%20bottle%20Absolut%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20clear%20glass%20bottle%20with%20blue%20label&width=300&height=300&seq=prod006&orientation=squarish" alt="Vodka Absolut" class="w-full h-48 object-cover object-top">
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-800 mb-1">Vodka Absolut</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Vodka sueco premium</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-bold text-primary">RD$ 1,950</span>
+                                        <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors add-to-cart" data-product="Vodka Absolut" data-price="1950">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Premium%20red%20wine%20bottle%20Cabernet%20Sauvignon%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20dark%20glass%20bottle%20with%20elegant%20label&width=300&height=300&seq=prod007&orientation=squarish" alt="Vino Tinto" class="w-full h-48 object-cover object-top">
+                                    <span class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs">Oferta</span>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-800 mb-1">Vino Cabernet Sauvignon</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Vino tinto reserva</p>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <span class="text-lg font-bold text-primary">RD$ 890</span>
+                                            <span class="text-sm text-gray-500 line-through ml-2">RD$ 1,200</span>
+                                        </div>
+                                        <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors add-to-cart" data-product="Vino Cabernet Sauvignon" data-price="890">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden product-card">
+                                <div class="relative">
+                                    <img src="https://readdy.ai/api/search-image?query=Premium%20tequila%20bottle%20Jose%20Cuervo%20on%20clean%20white%20background%2C%20professional%20product%20photography%2C%20clear%20glass%20bottle%20with%20golden%20label&width=300&height=300&seq=prod008&orientation=squarish" alt="Tequila José Cuervo" class="w-full h-48 object-cover object-top">
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-gray-800 mb-1">Tequila José Cuervo</h3>
+                                    <p class="text-sm text-gray-600 mb-2">Tequila mexicano auténtico</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-bold text-primary">RD$ 2,300</span>
+                                        <button class="bg-primary text-white px-4 py-2 !rounded-button text-sm whitespace-nowrap hover:bg-blue-600 transition-colors add-to-cart" data-product="Tequila José Cuervo" data-price="2300">
+                                            Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center mt-8">
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">1</button>
+                                <button class="px-3 py-2 bg-primary text-white rounded">2</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">3</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
+                                    <div class="w-4 h-4 flex items-center justify-center">
+                                        <i class="ri-arrow-right-s-line"></i>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-gradient-to-r from-primary/5 to-secondary/5">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">¿Por qué elegir DAGON?</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Somos el almacén de licores más confiable en Santo Domingo Este, con años de experiencia y la mejor selección.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="ri-truck-line text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Entrega Rápida</h3>
+                        <p class="text-gray-600">Entregamos en menos de 2 horas en toda la zona este de Santo Domingo.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="ri-shield-check-line text-secondary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Productos Auténticos</h3>
+                        <p class="text-gray-600">Garantizamos la autenticidad de todos nuestros productos premium.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="ri-customer-service-2-line text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Atención 24/7</h3>
+                        <p class="text-gray-600">Nuestro equipo está disponible para ayudarte en cualquier momento.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-['Pacifico'] text-primary mb-4">DAGON</h3>
+                    <p class="text-gray-300 mb-4">El almacén de licores más confiable en República Dominicana.</p>
+                    <div class="flex space-x-4">
+                        <div class="w-8 h-8 flex items-center justify-center">
+                            <i class="ri-facebook-fill text-blue-400"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center">
+                            <i class="ri-instagram-line text-pink-400"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center">
+                            <i class="ri-whatsapp-line text-green-400"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Productos</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">Ron</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cerveza</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Whisky</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Vino</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Información</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Términos y Condiciones</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Consumo Responsable</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Contacto</h4>
+                    <div class="space-y-2 text-gray-300">
+                        <p class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center mr-2">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            +1 (809) 555-0123
+                        </p>
+                        <p class="flex items-center">
+                            <div class="w-4 h-4 flex items-center justify-center mr-2">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            info@dagonalmacen.com
+                        </p>
+                        <p class="flex items-start">
+                            <div class="w-4 h-4 flex items-center justify-center mr-2 mt-1">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            Av. Las Américas, Santo Domingo Este, República Dominicana
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 DAGON Almacén del Este. Todos los derechos reservados.</p>
+                <p class="text-sm mt-2">Prohibida la venta a menores de edad. Consume con responsabilidad.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cartSidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b">
+            <div class="flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Carrito de Compras</h3>
+                <button id="closeCart" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto p-6">
+            <div id="cartItems" class="space-y-4">
+            </div>
+        </div>
+        
+        <div class="border-t p-6">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-semibold">Total:</span>
+                <span id="cartTotal" class="text-xl font-bold text-primary">RD$ 0</span>
+            </div>
+            <button class="w-full bg-primary text-white py-3 !rounded-button font-medium whitespace-nowrap hover:bg-blue-600 transition-colors">
+                Proceder al Checkout
+            </button>
+        </div>
+    </div>
+
+    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <script id="ageVerification">
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('ageModal');
+            const confirmBtn = document.getElementById('confirmAge');
+            const denyBtn = document.getElementById('denyAge');
+            
+            confirmBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                localStorage.setItem('ageVerified', 'true');
+            });
+            
+            denyBtn.addEventListener('click', function() {
+                alert('Lo sentimos, debes ser mayor de 18 años para acceder a este sitio.');
+                window.location.href = 'https://www.google.com';
+            });
+            
+            if (localStorage.getItem('ageVerified') === 'true') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+    <script id="cartFunctionality">
+        document.addEventListener('DOMContentLoaded', function() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            function updateCartUI() {
+                const cartCount = document.getElementById('cartCount');
+                const cartItems = document.getElementById('cartItems');
+                const cartTotal = document.getElementById('cartTotal');
+                
+                cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+                
+                cartItems.innerHTML = '';
+                let total = 0;
+                
+                cart.forEach((item, index) => {
+                    total += item.price * item.quantity;
+                    cartItems.innerHTML += `
+                        <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                            <div class="flex-1">
+                                <h4 class="font-medium">${item.name}</h4>
+                                <p class="text-sm text-gray-600">RD$ ${item.price.toLocaleString()}</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="updateQuantity(${index}, -1)" class="w-6 h-6 bg-gray-200 rounded flex items-center justify-center">
+                                    <i class="ri-subtract-line text-xs"></i>
+                                </button>
+                                <span class="w-8 text-center">${item.quantity}</span>
+                                <button onclick="updateQuantity(${index}, 1)" class="w-6 h-6 bg-gray-200 rounded flex items-center justify-center">
+                                    <i class="ri-add-line text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                cartTotal.textContent = `RD$ ${total.toLocaleString()}`;
+            }
+            
+            window.updateQuantity = function(index, change) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartUI();
+            };
+            
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const name = this.dataset.product;
+                    const price = parseInt(this.dataset.price);
+                    
+                    const existingItem = cart.find(item => item.name === name);
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({ name, price, quantity: 1 });
+                    }
+                    
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartUI();
+                    
+                    this.textContent = 'Agregado!';
+                    this.classList.add('bg-green-500');
+                    setTimeout(() => {
+                        this.textContent = 'Agregar';
+                        this.classList.remove('bg-green-500');
+                    }, 1000);
+                });
+            });
+            
+            document.getElementById('cartBtn').addEventListener('click', function() {
+                document.getElementById('cartSidebar').classList.remove('translate-x-full');
+                document.getElementById('cartOverlay').classList.remove('hidden');
+            });
+            
+            document.getElementById('closeCart').addEventListener('click', function() {
+                document.getElementById('cartSidebar').classList.add('translate-x-full');
+                document.getElementById('cartOverlay').classList.add('hidden');
+            });
+            
+            document.getElementById('cartOverlay').addEventListener('click', function() {
+                document.getElementById('cartSidebar').classList.add('translate-x-full');
+                document.getElementById('cartOverlay').classList.add('hidden');
+            });
+            
+            updateCartUI();
+        });
+    </script>
+
+    <script id="formControls">
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.checkbox').forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    input.checked = !input.checked;
+                    
+                    if (input.checked) {
+                        this.classList.add('bg-primary', 'border-primary');
+                        this.classList.remove('border-gray-300');
+                        icon.classList.remove('hidden');
+                    } else {
+                        this.classList.remove('bg-primary', 'border-primary');
+                        this.classList.add('border-gray-300');
+                        icon.classList.add('hidden');
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.slider').forEach(slider => {
+                slider.addEventListener('input', function() {
+                    const value = this.value;
+                    const max = this.max;
+                    const percentage = (value / max) * 100;
+                    
+                    this.style.background = `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`;
+                });
+            });
+        });
+    </script>
+<script>
+    !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.crossOrigin = "anonymous", p.async = !0, p.src = s.api_host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js", (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, r); var u = e; for (void 0 !== a ? u = e[a] = [] : a = "posthog", u.people = u.people || [], u.toString = function (t) { var e = "posthog"; return "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e }, u.people.toString = function () { return u.toString(1) + ".people (stub)" }, o = "init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "), n = 0; n < o.length; n++)g(u, o[n]); e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
+    posthog.init('phc_t9tkQZJiyi2ps9zUYm8TDsL6qXo4YmZx0Ot5rBlAlEd', {
+        api_host: 'https://us.i.posthog.com',
+        autocapture: false,
+        capture_pageview: false,
+        capture_pageleave: false,
+        capture_performance: {
+            web_vitals: false,
+        },
+        rageclick: false,
+    })
+    window.shareKey = 'N1Mo1gAVeoIKOFv8zOAuaw';
+    window.host = 'readdy.ai';
+</script>
+</body>
+</html>
